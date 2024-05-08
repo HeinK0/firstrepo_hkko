@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web GIS</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
+    <style>
+        #map{ height: 800px;}
+    </style>
+</head>
+
+<body>
+ <h1> Leaflet Quick Start Guide</h1>
+ <div> 
+    <h2> About this map</h2>
+    <p>
+        This is 1st leaflet map
+    </p>
+    <p> Created by HKKO</p>
+ </div>
+
+ <div id="map"></div>
+<script>
+    let map = L.map('map').setView( [16.858027, 96.207177], 13);
+
+    L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	    maxZoom: 20,
+	    attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+    }).addTo(map);
+    var circle = L.circle([16.858027, 96.207177], {
+    color: 'blue',
+    fillColor: '#80f33',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(map);
+
+
+let polygon = L.polygon([
+    [16.854096, 96.139677],
+    [16.834507, 96.134424],
+    [16.825666, 96.153895],
+    [16.835634, 96.155887],
+    [16.847509, 96.152265],
+    [16.854096, 96.139677]
+], {
+    color: 'red',
+    fillColor: '#80f33',
+    fillOpacity: 0.5,
+    radius: 500
+}).addTo(map);
+
+
+polygon.bindPopup("Inya Lake");
+circle.bindPopup("Pinlon Hospital");
+
+
+     L.popup()
+    .setLatLng([16.819602, 96.131892])
+    .setContent("Novotel")
+    .openOn(map);
+
+
+    function onMapClick(e) {
+    alert("You clicked the map at " + e.latlng);
+}
+
+map.on('click', onMapClick);
+
+let geojson =  {
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Anawyahtar"
+      },
+      "geometry": {
+        "coordinates": [
+          [
+            96.15330575703211,
+            16.77703802530918
+          ],
+          [
+            96.15868790249317,
+            16.77690061043839
+          ]
+        ],
+        "type": "LineString"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {"name": "Kone Thae Road"},
+      "geometry": {
+        "coordinates": [
+          [
+            96.15868790307496,
+            16.771919253509566
+          ],
+          [
+            96.16704816902438,
+            16.771610061583658
+          ]
+        ],
+        "type": "LineString"
+      }
+    }
+  ]
+}
+
+let mystyle = {color: 'red',
+    fillColor: '#80f33',
+    fillOpacity: 0.5,
+    weight : 20
+    
+}
+L.geoJSON(geojson, 
+{style : mystyle} ).addTo(map);
+</script>
+
+</body>
+</html>
+ 
